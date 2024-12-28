@@ -5,7 +5,7 @@ repos:
     -   id: flake8
 
 -   repo: https://github.com/PyCQA/flake8-bugbear
-    rev: 22.3.2  # Dernière version stable disponible
+    rev: 24.12.12  # Dernière version stable disponible
     hooks:
     -   id: flake8-bugbear
 
