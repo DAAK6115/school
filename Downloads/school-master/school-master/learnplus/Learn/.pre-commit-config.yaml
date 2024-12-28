@@ -1,0 +1,31 @@
+repos:
+-   repo: https://github.com/pycqa/flake8
+    rev: 7.1.1  # Assurez-vous que c'est une version stable
+    hooks:
+    -   id: flake8
+
+-   repo: https://github.com/PyCQA/flake8-bugbear
+    rev: 22.3.2  # Dernière version stable disponible
+    hooks:
+    -   id: flake8-bugbear
+
+-   repo: https://github.com/adamchainz/flake8-comprehensions
+    rev: v3.13.0  # Dernière version stable
+    hooks:
+    -   id: flake8-comprehensions
+
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+
+-   repo: https://github.com/psf/black
+    rev: 24.10.0  # Dernière version stable
+    hooks:
+    -   id: black
+
+-   repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+    -   id: yamllint

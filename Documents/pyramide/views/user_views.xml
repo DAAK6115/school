@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+        <!-- Vue pour afficher les utilisateurs -->
+        <record id="view_utilisateur_tree" model="ir.ui.view">
+            <field name="name">mon_module.utilisateur.tree</field>
+            <field name="model">mon_module.utilisateur</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="parrain_id"/>
+                    <field name="filleuls_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue pour formulaire de création d'utilisateur -->
+        <record id="view_utilisateur_form" model="ir.ui.view">
+            <field name="name">mon_module.utilisateur.form</field>
+            <field name="model">mon_module.utilisateur</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="parrain_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Filleuls">
+                                <field name="filleuls_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action pour ouvrir la vue des utilisateurs -->
+        <record id="action_utilisateur" model="ir.actions.act_window">
+            <field name="name">Utilisateurs</field>
+            <field name="res_model">mon_module.utilisateur</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu pour accéder aux utilisateurs -->
+        <menuitem id="menu_mon_module_root" name="Mon Module"/>
+        <menuitem id="menu_utilisateur" name="Utilisateurs" parent="menu_mon_module_root" action="action_utilisateur"/>
+    </data>
+</odoo>

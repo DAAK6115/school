@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <!-- Groupe pour les utilisateurs de base -->
+        <record id="group_utilisateur_user" model="res.groups">
+            <field name="name">Utilisateur</field>
+        </record>
+
+        <!-- Groupe pour les administrateurs -->
+        <record id="group_utilisateur_manager" model="res.groups">
+            <field name="name">Administrateur</field>
+        </record>
+
+        <!-- Règle d'accès pour les utilisateurs de base -->
+        <record id="rule_utilisateur_user" model="ir.rule">
+            <field name="name">Utilisateur: accès utilisateur</field>
+            <field name="model_id" ref="model_mon_module_utilisateur"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('mon_module.group_utilisateur_user'))]"/>
+        </record>
+
+        <!-- Règle d'accès pour les administrateurs -->
+        <record id="rule_utilisateur_manager" model="ir.rule">
+            <field name="name">Administrateur: accès utilisateur</field>
+            <field name="model_id" ref="model_mon_module_utilisateur"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('mon_module.group_utilisateur_manager'))]"/>
+        </record>
+    </data>
+</odoo>

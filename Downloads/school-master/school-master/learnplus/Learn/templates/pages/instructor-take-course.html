@@ -1,0 +1,34 @@
+{% extends 'bases/header_instructor.html' %}
+
+{% block content %}
+<div class="container-fluid page__container">
+    <h1 class="h2">Take Course - Vue.js</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Course Details</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Course Title:</strong> {{ course_title }}</p>
+            <p><strong>Instructor:</strong> {{ instructor_name }}</p>
+            <p><strong>Start Date:</strong> {{ start_date }}</p>
+            <p><strong>End Date:</strong> {{ end_date }}</p>
+            <p><strong>Description:</strong> {{ course_description }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Chapters</h4>
+        </div>
+        <ul class="list-group list-group-fit">
+            {% for chapter in chapters %}
+            <li class="list-group-item">
+                <strong>{{ chapter.title }}</strong> - 
+                <span class="badge badge-success">{{ chapter.status }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock content %}

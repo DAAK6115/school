@@ -1,0 +1,88 @@
+{% extends 'bases/header_i_chat.html' %}
+{% load static %}
+{% block content %}
+<div class="mdk-drawer-layout__content page">
+    <div class="app-messages__container d-flex flex-column h-100 pb-4">
+        <div class="navbar navbar-light bg-white navbar-expand-sm navbar-shadow z-1">
+            <div class="container-fluid flex-wrap px-sm-0">
+                <div class="nav py-2">
+                    <div class="nav-item align-items-center mr-3">
+                        <div class="d-flex flex-column" style="max-width: 200px; font-size: 15px">
+                            <strong class="text-body">{{ other_user.get_full_name }}</strong>
+                            <span class="text-muted text-ellipsis">Chat privé</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex pt-4" style="position: relative;" data-perfect-scrollbar>
+            <div class="container-fluid page__container">
+                <ul class="d-flex flex-column list-unstyled" id="chat-log"></ul>
+            </div>
+        </div>
+        <div class="container-fluid page__container">
+            <form action="#" id="message-reply">
+                <div class="input-group input-group-merge">
+                    <input type="text" id="chat-message-input" class="form-control form-control-appended" autofocus="" required=""
+                        placeholder="Type message">
+                    <div class="input-group-append">
+                        <div class="input-group-text pr-2">
+                            <button class="btn btn-flush" type="button"><i id="chat-message-submit" class="material-icons">send</i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+<ul class="d-flex flex-column list-unstyled" id="chat-log">
+    <!-- Exemple de message -->
+    <li class="message d-inline-flex">
+        <div class="message__aside">
+            <a href="#" class="avatar">
+                <img src="{% static 'path/to/avatar.jpg' %}" alt="user" class="avatar-img rounded-circle">
+            </a>
+        </div>
+        <div class="message__body card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex mr-3">
+                        <a href="#" class="text-body"><strong>Moi</strong></a>
+                    </div>
+                    <div>
+                        <small class="text-white">2024-01-01 12:00:00</small>
+                    </div>
+                </div>
+                <span class="text-white">Ceci est un message.</span>
+            </div>
+        </div>
+    </li>
+</ul>
+
+
+{% block script %}
+<script>
+    const otherUserId = {{ other_user.id }};
+    const chatSocket = new WebSocket(
+        `ws://` + window.location.host + `/ws/chat/private/${otherUserId}/`
+    );
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const chatLog = document.getElementById('chat-log');
+        const newMessage = document.createElement('li');
+        newMessage.textContent = `${data.sender}: ${data.message}`;
+        chatLog.appendChild(newMessage);
+    };
+
+    document.getElementById('chat-message-submit').onclick = function(e) {
+        const messageInputDom = document.getElementById('chat-message-input');
+        const message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
+        messageInputDom.value = '';
+    };
+</script>
+{% endblock script %}

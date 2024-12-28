@@ -1,0 +1,86 @@
+{% extends 'bases/student_header.html'%}
+{% block content %}
+<div class="page ">
+    <div class="container page__container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index_student' %}">Accueil</a></li>
+            {% if forum.cours %}
+                <li class="breadcrumb-item"><a href="{% url 'forum-lesson' forum.cours.slug %}">Forum</a></li>
+            {% else %}
+                <li class="breadcrumb-item"><a href="{% url 'forum' %}">Forum</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active">Discussion</li>
+        </ol>
+
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="h2 mb-2">{{ forum.titre }}</h1>
+                <p class="text-muted d-flex align-items-center mb-4">
+                    {% if forum.cours %}
+                        <a href="{% url 'forum-lesson' forum.cours.slug %}" class="mr-3">Retour</a>
+                    {% else %}
+                        <a href="{% url 'forum' %}" class="mr-3">Retour</a>
+                    {% endif %}
+                </p>
+
+                <div class="card card-body">
+                    <div class="d-flex">
+                        <a href="#" class="avatar mr-3">
+                            {% if forum.user.student_user.get_u_type %}
+                                <img src="{{ forum.user.student_user.photo.url }}" alt="{{ forum.user.last_name }}" class="avatar-img rounded-circle">
+                            {% elif forum.user.instructor.get_u_type %}
+                                <img src="{{ forum.user.instructor.photo.url }}" alt="{{ forum.user.last_name }}" class="avatar-img rounded-circle">
+                            {% endif %}
+                        </a>
+                        <div class="flex">
+                            <p class="d-flex align-items-center mb-2">
+                                <a href="#" class="text-body mr-2"><strong>{{ forum.user.last_name }} {{ forum.user.first_name }}</strong></a>
+                                <small class="text-muted">{{ forum.date_add }}</small>
+                            </p>
+                            <p>{{ forum.question }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulaire pour envoyer une réponse -->
+                <form action="{% url 'post_response' forum.slug %}" method="POST" class="d-flex mb-4">
+                    {% csrf_token %}
+                    <a href="#" class="avatar mr-3">
+                        <img src="{{ request.user.student_user.photo.url }}" alt="user" class="avatar-img rounded-circle">
+                    </a>
+                    <div class="flex">
+                        <div class="form-group">
+                            <label for="comment" class="form-label">Avez-vous une réponse?</label>
+                            <textarea class="form-control" name="reponse" id="comment" rows="3" placeholder="Entrer votre réponse"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Je réponds</button>
+                    </div>
+                </form>
+
+                <!-- Liste des réponses -->
+                <div class="pt-3">
+                    <h4>{{ forum.sujet_reponse.count }} Réponse(s)</h4>
+                    {% for i in forum.sujet_reponse.all %}
+                        <div class="d-flex ml-sm-32pt mt-3 border rounded p-3 bg-light mb-3">
+                            <a href="#" class="avatar avatar-xs mr-3">
+                                {% if i.user.student_user.get_u_type %}
+                                    <img src="{{ i.user.student_user.photo.url }}" alt="{{ i.user.last_name }}" class="avatar-img rounded-circle">
+                                {% elif i.user.instructor.get_u_type %}
+                                    <img src="{{ i.user.instructor.photo.url }}" alt="{{ i.user.last_name }}" class="avatar-img rounded-circle">
+                                {% endif %}
+                            </a>
+                            <div class="flex">
+                                <div class="d-flex align-items-center">
+                                    <a href="#" class="text-body"><strong>{{ i.user.last_name }} {{ i.user.first_name }}</strong></a>
+                                    <small class="ml-auto text-muted">{{ i.date_add }}</small>
+                                </div>
+                                <p class="mt-1 mb-0 text-black-70">{{ i.reponse }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends 'bases/student_header.html' %}
+{% load static %}
+{% block content %}
+<div class="page">
+    <div class="container page__container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index_student' %}">Home</a></li>
+            <li class="breadcrumb-item active">Quiz Results</li>
+        </ol>
+        <div class="media mb-headings align-items-center">
+            <div class="media-left">
+                <img src="{% static 'assets/images/vuejs.png' %}" alt="" width="80" class="rounded">
+            </div>
+            <div class="media-body">
+                <h1 class="h2">Vue.js Deploy Quiz</h1>
+                <p class="text-muted">Submitted on 2nd Feb 2016</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Result</h4>
+            </div>
+            <div class="card-body media align-items-center">
+                <div class="media-body">
+                    <h4 class="mb-0">5.8</h4>
+                    <span class="text-muted-light">Good</span>
+                </div>
+                <div class="media-right">
+                    <a href="{% url 'take-quiz' %}" class="btn btn-primary">Restart <i class="material-icons btn__icon--right">refresh</i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Questions</h4>
+            </div>
+            <ul class="list-group list-group-fit mb-0">
+                {% for question in quizzes %}
+                <li class="list-group-item">
+                    <div class="media">
+                        <div class="media-left">
+                            <div class="text-muted-light">{{ forloop.counter }}</div>
+                        </div>
+                        <div class="media-body">{{ question.text }}</div>
+                        <div class="media-right">
+                            <span class="badge {% if question.status == 'Correct' %}badge-success{% elif question.status == 'Wrong' %}badge-danger{% else %}badge-primary{% endif %}">
+                                {{ question.status }}
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock content %}

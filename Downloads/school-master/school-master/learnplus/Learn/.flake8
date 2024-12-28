@@ -1,0 +1,4 @@
+[flake8]
+exclude = venv, .env, migrations, __pycache__, manage.py
+max-line-length = 88
+htmldir = flake8_report
